@@ -53,14 +53,14 @@ exports.setDefaults = (defaultKeys) => {
 exports.fetchUserByNameAndUsersCompany = async (name, {fetchUsers, fetchCompanyById, fetchStatus}) => {
   const userFetched = await fetchUsers()
   const [ userFilted ] = userFetched.filter(u => u.name === name)
-  const result = await Promise.all([
+  const [status, company] = await Promise.all([
     fetchStatus(),
     fetchCompanyById(userFilted.companyId)
   ])
   return {
-    company: result[1],
+    company,
     user: userFilted,
-    status: result[0]
+    status
   }
 
 };
